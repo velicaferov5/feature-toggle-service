@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feature Toggle API</title>
+</head>
+<body>
+<h2> Welcome to Feature Toggle API</h2>
+<div>
+    <p>API allows to insert, get, update, archive and invert feature toggles.
+
+    <p>Feature Toggles have:
+    ID
+    DisplayName
+    TechnicalName
+    ExpiresOn
+    Description
+    Inverted
+    CustomerIds</p>
+
+    <p>Feature Toggles can be inserted, get, update, archive, inverted with REST services.
+    </p>
+
+    <p>Requirement to run (Java version): 11</p><br/>
+</div>
+<div>
+    <h3>REST-ful services in API:</h3>
+    <p>
+        <b>Check API</b><br/>
+        URL: /api/ <br/>
+        Input: none <br/>
+        Output: none <br/>
+        Type: Any <br/>
+        Use: To print API is working
+    </p>
+    <p>
+        <b>FeatureToggles</b><br/>
+        URL: /api/featuretoggle/{id} <br/>
+        Input: id (int) <br/>
+        Output: FeatureToggle <br/>
+        Type: GET <br/>
+        Use: Get Feature Toggle by ID
+    </p>
+
+    <p>
+    URL: /api/featuretoggle/ <br/>
+    Input: FeatureToggleDTO <br/>
+    Output: FeatureToggleDTO <br/>
+    Type: POST <br/>
+    Use: To insert new feature toggle
+    </p>
+
+    <p>
+        URL: /api/featuretoggle/{id} <br/>
+        Input: header: id (int), body: FeatureToggleDTO <br/>
+        Output: FeatureToggleDTO <br/>
+        Type: PUT <br/>
+        Use: To update a feature toggle
+    </p>
+
+    <p>
+        URL: /api/featuretoggle/archive/{id} <br/>
+        Input: id (int) <br/>
+        Output: FeatureToggleDTO <br/>
+        Type: PUT <br/>
+        Use: To archive a feature toggle
+    </p>
+</div>
+</body>
+</html>

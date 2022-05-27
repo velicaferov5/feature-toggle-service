@@ -1,0 +1,7 @@
+security:
+  ignored: /**
+web:
+  cors:
+    enabled: true
+    allowedOrigins: "*"
+    allowedHosts: "*"

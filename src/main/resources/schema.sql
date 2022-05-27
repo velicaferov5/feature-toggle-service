@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS FeatureToggle;
+
+CREATE TABLE FeatureToggle (
+  id IDENTITY NOT NULL PRIMARY KEY,
+  displayName VARCHAR(250) DEFAULT NULL,
+  expiresOn DATE,
+  technicalName VARCHAR(250) NOT NULL,
+  description VARCHAR(250) DEFAULT NULL,
+  inverted BOOLEAN NOT NULL,
+  customerIds VARCHAR(250) NOT NULL
+);
