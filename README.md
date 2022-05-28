@@ -1,5 +1,5 @@
 API allows to insert, get, update, archive and invert feature toggles.
-Feature Toggles have:
+Feature Toggles can have:
 ID
 DisplayName
 TechnicalName
@@ -24,7 +24,7 @@ All services have been tested using JUnit (4.13 version).
 org.mockito.Mockito framework used to mock data in tests.
 
 REST-ful services in API:
-URL: /api/
+URL: /api/health
 Input: none
 Output: none
 Type: Any
@@ -36,11 +36,17 @@ Output: FeatureToggleDTO
 Type: GET
 Use: Get feature toggle by ID
 
-URL: /api/featureToggle
+URL: /api/featuretoggle
 Input: none
 Output: List<FeatureToggleDTO>
 Type: GET
 Use: To get all feature toggles
+
+URL: /api/featuretoggle/{customerid}/{inverted}
+Input: id (int), inverted (boolean)
+Output: List<FeatureToggleDTO>
+Type: GET
+Use: To get all inverted and not inverted features assigned to customer id
 
 URL: /api/featuretoggle
 Input: id (int)

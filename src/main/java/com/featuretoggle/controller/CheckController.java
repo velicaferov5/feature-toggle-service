@@ -1,14 +1,15 @@
 package com.featuretoggle.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/health")
 public class CheckController {
 
     @RequestMapping("/")
-    public String home() {
-        return "FeatureToggle API is working!";
+    public HttpStatus home() {
+        return HttpStatus.OK;
     }
 }

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -42,10 +44,27 @@ public class FeatureService {
     }
 
     /**
+     * Filters and returns {@param inverted} and not-{@param inverted} feature toggles assigned to customer by {@param customerId}
+     *
+     * @param customerId
+     * @param inverted
+     * @return Feature toggles
+     */
+    public List<FeatureToggle> findByCustomerId(String customerId, Boolean inverted) {
+        var features = (List<FeatureToggle>) featureRepository.findAll();
+
+        return features.stream().filter(f ->
+            f.getInverted().equals(inverted) && f.getCustomerIds() != null
+                    && Arrays.stream(f.getCustomerIds().split(",")).anyMatch(cId -> cId.equals(customerId)))
+                .collect(Collectors.toList());
+
+    }
+
+    /**
      * Create Feature Toggle
      *
      * @param feature
-     * @return optional Order
+     * @return saved feature toggle
      */
     public FeatureToggle create(FeatureToggle feature) {
         return save(feature);
@@ -55,7 +74,7 @@ public class FeatureService {
      * Updates and returns feature toggle
      *
      * @param feature
-     * @return updated featureToggle
+     * @return updated feature toggle
      */
     public FeatureToggle update(@Valid FeatureToggle feature) {
         var featureDb = featureRepository.findById(feature.getId()).orElseThrow(NotFoundException::new);
@@ -73,7 +92,7 @@ public class FeatureService {
      * Archives (sets expiresOn as now) and returns feature toggle
      *
      * @param id
-     * @return archived featureToggle
+     * @return archived feature toggle
      */
     public FeatureToggle archive(Integer id) {
         var featureDb = featureRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -88,7 +107,7 @@ public class FeatureService {
      *
      * @param id
      * @param inverted
-     * @return inverted featureToggle
+     * @return inverted feature toggle
      */
     public FeatureToggle invert(Integer id, Boolean inverted) {
         var featureDb = featureRepository.findById(id).orElseThrow(NotFoundException::new);
@@ -97,15 +116,38 @@ public class FeatureService {
         return save(featureDb);
     }
 
+    /**
+     * Validates, formats and saves {@param feature} to repository.
+     * Not saved and empty feature returned if isn't valid.
+     *
+     * @param feature
+     * @return saved feature toggle
+     */
     public FeatureToggle save(FeatureToggle feature) {
         if (isValid(feature)) {
+            format(feature);
             return featureRepository.save(feature);
         }
 
         return new FeatureToggle();
     }
 
+    /**
+     * Validates {@param feature} if conditions in FeatureToggle class are met
+     * @param feature
+     * @return is valid
+     */
     public boolean isValid(FeatureToggle feature) {
         return new ValidatorEntities<FeatureToggle>().test(feature);
+    }
+
+    /**
+     * Removes whitespace from customerIds
+     * @param feature
+     */
+    private void format(FeatureToggle feature) {
+        if (feature.getCustomerIds() != null) {
+            feature.setCustomerIds(feature.getCustomerIds().replaceAll("\\s+",""));
+        }
     }
 }

@@ -39,6 +39,7 @@ public class FeatureServiceTest {
     private static final OffsetDateTime FUTURE_DATE_TIME = OffsetDateTime.of(2100, 12, 1, 1, 1, 1, 1, ZoneOffset.MAX);
     private static final String DESCRIPTION = "Feature for a project";
     private static final boolean INVERTED = true;
+    private static final String CUSTOMER_ID = "11";
     private static final String CUSTOMER_IDS = "11,12,13";
     public static final String NO_VALUE_PRESENT = "No value present";
 
@@ -74,6 +75,45 @@ public class FeatureServiceTest {
     public void findAll_notFound() {
         var actual = service.findAll();
         assertThat(actual.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void findByCustomerId_invertedFound() {
+        var feature = newFeature();
+        var expected = Arrays.asList(feature, feature);
+        when(repository.findAll()).thenReturn(expected);
+        var actual = service.findByCustomerId(CUSTOMER_ID, true);
+        assertFeatures(expected, actual);
+    }
+
+    @Test
+    public void findByCustomerId_notInvertedFound() {
+        var feature = newFeature();
+        feature.setInverted(false);
+        var expected = Arrays.asList(feature, feature);
+        when(repository.findAll()).thenReturn(expected);
+        var actual = service.findByCustomerId(CUSTOMER_ID, false);
+        assertFeatures(expected, actual);
+    }
+
+    @Test
+    public void findByCustomerId_invertedNotFound() {
+        var feature = newFeature();
+        feature.setInverted(false);
+        var expected = Arrays.asList(feature, feature);
+        when(repository.findAll()).thenReturn(expected);
+        var result = service.findByCustomerId(CUSTOMER_ID, true);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void findByCustomerId_notFound() {
+        var feature = newFeature();
+        feature.setCustomerIds(null);
+        var expected = Arrays.asList(feature, feature);
+        when(repository.findAll()).thenReturn(expected);
+        var result = service.findByCustomerId(CUSTOMER_ID, true);
+        assertTrue(result.isEmpty());
     }
 
     @Test

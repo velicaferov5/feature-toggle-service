@@ -2,7 +2,6 @@ package com.featuretoggle.controller;
 
 import com.featuretoggle.converter.FeatureConverter;
 import com.featuretoggle.dto.FeatureToggleDTO;
-import com.featuretoggle.exception.FeatureToggleException;
 import com.featuretoggle.exception.MapperException;
 import com.featuretoggle.exception.NotFoundException;
 import com.featuretoggle.service.FeatureService;
@@ -39,6 +38,7 @@ public class FeatureController {
         var feature = service.findById(id);
         return feature.map(FeatureConverter::toDTO).orElseThrow(NotFoundException::new);
     }
+
     /**
      * Finds and returns all feature toggles
      *
@@ -50,6 +50,16 @@ public class FeatureController {
     }
 
     /**
+     * Filters and returns all {@param inverted} and not-{@param inverted} feature toggles assigned to customer by {@param customerId}
+     *
+     * @return featureToggleDTO list
+     */
+    @GetMapping("/{customerid}/{inverted}")
+    public List<FeatureToggleDTO> findByCustomerId(@PathVariable(name="customerid") String customerId, @PathVariable(name="inverted") Boolean inverted) {
+        return service.findByCustomerId(customerId, inverted).stream().map(FeatureConverter::toDTO).collect(Collectors.toList());
+    }
+
+    /**
      * Create new Feature toggle
      *
      * @param dto
@@ -58,7 +68,7 @@ public class FeatureController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureToggleDTO create(@Valid @RequestBody FeatureToggleDTO dto) {
         var feature = Optional.of(dto).map(FeatureConverter::toFeature).orElseThrow(MapperException::new);
-        return Optional.of(service.create(feature)).map(FeatureConverter::toDTO).orElseThrow(new FeatureToggleException("Feature Toggle create failed!"));
+        return Optional.of(service.create(feature)).map(FeatureConverter::toDTO).orElseThrow(MapperException::new);
     }
 
     /**
@@ -70,7 +80,7 @@ public class FeatureController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureToggleDTO update(@Valid @RequestBody FeatureToggleDTO dto) {
         var feature = Optional.of(dto).map(FeatureConverter::toFeature).orElseThrow(MapperException::new);
-        return Optional.of(service.update(feature)).map(FeatureConverter::toDTO).orElseThrow(new FeatureToggleException("Feature Toggle update failed!"));
+        return Optional.of(service.update(feature)).map(FeatureConverter::toDTO).orElseThrow(MapperException::new);
     }
 
     /**
@@ -81,7 +91,7 @@ public class FeatureController {
      */
     @PutMapping(value = "/archive/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureToggleDTO archive(@PathVariable(name="id") Integer id) {
-        return Optional.of(service.archive(id)).map(FeatureConverter::toDTO).orElseThrow(new FeatureToggleException("Feature Toggle update failed!"));
+        return Optional.of(service.archive(id)).map(FeatureConverter::toDTO).orElseThrow(MapperException::new);
     }
 
     /**
@@ -93,6 +103,6 @@ public class FeatureController {
      */
     @PutMapping(value = "/{id}/{inverted}", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureToggleDTO invert(@PathVariable(name="id") Integer id, @PathVariable(name="inverted") Boolean inverted) {
-        return Optional.of(service.invert(id, inverted)).map(FeatureConverter::toDTO).orElseThrow(new FeatureToggleException("Feature Toggle update failed!"));
+        return Optional.of(service.invert(id, inverted)).map(FeatureConverter::toDTO).orElseThrow(MapperException::new);
     }
 }
