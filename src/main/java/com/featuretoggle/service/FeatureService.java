@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class FeatureService {
 
-    private FeatureToggleRepository featureRepository;
+    private final FeatureToggleRepository featureRepository;
 
     public FeatureService(FeatureToggleRepository featureRepository) {
         this.featureRepository = featureRepository;

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:4200")
 public class FeatureController {
 
-    private FeatureService service;
+    private final FeatureService service;
 
     public FeatureController(FeatureService service) {
         this.service = service;
