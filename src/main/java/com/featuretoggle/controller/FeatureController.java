@@ -44,7 +44,7 @@ public class FeatureController {
      *
      * @return featureToggleDTO list
      */
-    @GetMapping("")
+    @GetMapping
     public List<FeatureToggleDTO> findAll() {
         return service.findAll().stream().map(FeatureConverter::toDTO).collect(Collectors.toList());
     }
