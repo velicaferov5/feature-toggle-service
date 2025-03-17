@@ -84,7 +84,7 @@ public class FeatureController {
     }
 
     /**
-     * Archive feature toggle
+     * Archive (set expiration date as now) feature toggle
      *
      * @param id
      * @return archived feature toggle
