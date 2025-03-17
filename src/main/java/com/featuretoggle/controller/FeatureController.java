@@ -5,10 +5,10 @@ import com.featuretoggle.dto.FeatureToggleDTO;
 import com.featuretoggle.exception.MapperException;
 import com.featuretoggle.exception.NotFoundException;
 import com.featuretoggle.service.FeatureService;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

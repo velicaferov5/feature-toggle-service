@@ -5,8 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.2.0</version>  <!-- Latest stable version -->
+		<relativePath/>
 	</parent>
 	<groupId>com.featuretoggle</groupId>
 	<artifactId>api</artifactId>
@@ -15,7 +15,7 @@
 	<description>Feature Toggle API</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>23</java.version>
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 		<junit.platform.version>1.5.2</junit.platform.version>
 	</properties>
@@ -40,7 +40,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>2.3.3.RELEASE</version>
 		</dependency>
 
 		<dependency>
@@ -70,7 +69,13 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>7.0.0.Alpha6</version>
+			<version>8.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.el</groupId>
+			<artifactId>jakarta.el-api</artifactId>
+			<version>5.0.1</version>
 		</dependency>
 
 		<dependency>
@@ -83,7 +88,7 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.2.3.Final</version>
+			<version>7.0.1.Final</version> <!-- Use the latest version -->
 		</dependency>
 	</dependencies>
 

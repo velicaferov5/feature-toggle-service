@@ -4,9 +4,9 @@ import com.featuretoggle.exception.NotFoundException;
 import com.featuretoggle.interfaces.FeatureToggleRepository;
 import com.featuretoggle.model.FeatureToggle;
 import com.featuretoggle.util.ValidatorEntities;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
